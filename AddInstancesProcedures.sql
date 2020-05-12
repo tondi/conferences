@@ -11,7 +11,7 @@ BEGIN
 
 DECLARE @count int;
 SET @count = (SELECT COUNT(1) from ConferenceDay
-where ConferenceDay.Date = @Date AND ConferenceDay.ConferenceId = @ConferenceId AND ConferenceDay.LocationId = @LocationId)
+WHERE ConferenceDay.Date = @Date AND ConferenceDay.ConferenceId = @ConferenceId AND ConferenceDay.LocationId = @LocationId)
 
 IF @count = 0 
 INSERT INTO ConferenceDay (ConferenceId, Date, Capacity, LocationId, Price) VALUES(@ConferenceId, @Date, @Capacity, @LocationId, @Price);
@@ -33,7 +33,7 @@ BEGIN
 
 DECLARE @count int;
 SET @count = (SELECT COUNT(1) from Location
-where Location.City = @City AND Location.Country = @Country);
+WHERE Location.City = @City AND Location.Country = @Country);
 
 if @count = 0
 INSERT INTO Location(City, Country) VALUES(@City, @Country);
@@ -46,6 +46,28 @@ CREATE OR ALTER PROCEDURE Add_Address(@LocationId int, @Street varchar(255), @Bu
 AS
 BEGIN
 INSERT INTO Address(LocationId, Street, BuildingNumber, Room) VALUES(@LocationId, @Street, @BuildingNumber, @Room);
+END;
+GO
+
+CREATE OR ALTER PROCEDURE Add_Discount(@LocationId int, @Street varchar(255), @BuildingNumber varchar(255),  @Room varchar(255))
+AS
+BEGIN
+INSERT INTO Address(LocationId, Street, BuildingNumber, Room) VALUES(@LocationId, @Street, @BuildingNumber, @Room);
+END;
+GO
+
+CREATE OR ALTER PROCEDURE Add_Discount(@ConferenceId int, @DaysToConference int, @Percentage int)
+AS
+BEGIN
+
+DECLARE @count int;
+SET @count = (SELECT COUNT(1) from Discount
+WHERE ConferenceId = @ConferenceId AND DaysToConference = @DaysToConference);
+
+if @count = 0
+INSERT INTO Discount(ConferenceId, DaysToConference, Percentage) VALUES(@ConferenceId, @DaysToConference, @Percentage);
+ELSE RAISERROR('This discount already exists!', 15, 15); 
+
 END;
 GO
 
