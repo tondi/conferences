@@ -1,5 +1,59 @@
+CREATE OR ALTER FUNCTION Get_Conference_Day_Attendees(@ConferenceDayId int)
+RETURNS TABLE
+AS
+RETURN
+    SELECT PersonId, Name, CompanyId, ReservationDate, ConferenceDayId, StudentIdNumber FROM dbo.PersonConferenceDayReservation
+    INNER JOIN Conferences.dbo.ConferenceDay ON dbo.PersonConferenceDayReservation.ConferenceDayId = ConferenceDay.Id
+    INNER JOIN Conferences.dbo.Person ON dbo.PersonConferenceDayReservation.PersonId = Person.Id
+    WHERE ConferenceDayId = @ConferenceDayId;
+GO
+
+-- SELECT * FROM dbo.Get_Conference_Day_Attendees(1);
+
+
+CREATE OR ALTER FUNCTION Get_Attendees_For_Workshop(@WorkshopId int)
+RETURNS TABLE
+AS
+RETURN
+    SELECT PersonId, Person.Name, CompanyId, ReservationDate, WorkshopId, ConferenceDayId, StudentIdNumber FROM dbo.PersonWorkshopReservation
+    INNER JOIN Conferences.dbo.Workshop ON dbo.PersonWorkshopReservation.WorkshopId = Workshop.Id
+    INNER JOIN Conferences.dbo.Person ON dbo.PersonWorkshopReservation.PersonId = Person.Id
+    WHERE WorkshopId = @WorkshopId;
+GO
+
+-- SELECT * FROM dbo.Get_Attendees_For_Workshop(1);
+
+CREATE OR ALTER FUNCTION Get_Recurring_Attendees_Desc()
+RETURNS TABLE
+AS
+RETURN
+    SELECT TOP 3 Person.Name, Count(*) AS AttendedToConferences FROM Conferences.dbo.Person
+    INNER JOIN dbo.PersonConferenceDayReservation ON Person.Id = PersonConferenceDayReservation.PersonId
+    GROUP BY PersonId, Name
+    ORDER BY COUNT(ConferenceDayId) DESC;
+GO
+
+-- SELECT * FROM Get_Recurring_Attendees_Desc();
+
+CREATE OR ALTER FUNCTION Get_Discounts_For_Conference(@ConferenceId int)
+RETURNS TABLE
+AS
+RETURN
+    SELECT * FROM Discount WHERE Discount.ConferenceId = @ConferenceId
+GO
+
+-- SELECT * FROM Get_Discounts_For_Conference();
+
+CREATE OR ALTER FUNCTION Get_EventHistory_For_Table(@TableName varchar(255))
+RETURNS TABLE
+AS
+RETURN
+    SELECT * FROM EventHistory WHERE TableName = @TableName
+GO
+
+-- SELECT * FROM Get_EventHistory_For_Table('Conference');
+
 CREATE OR ALTER FUNCTION Get_CompanyConferenceDayReservations_Not_Registered_Attendees_Desc ()
--- Returns the stock level for the product.  
 RETURNS @resultTable TABLE
 (
 CompanyName varchar(255),
