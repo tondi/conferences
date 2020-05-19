@@ -24,3 +24,12 @@ for(var i = 0; i < boundaries.company; i++) {
 
     fCompany.write(utils.stringifyObject([i, mockData.companies[i], utils.randomNumberOfLength(9), mockData.maleFirstNames[i] + " " + mockData.surnames[i]]))
 }
+
+// let fAddress = fs.createWriteStream("./csv/Address.csv")
+// fAddress.write("Id,Name,ContactNumber,ContactPerson\n");
+// for(var i = 0; i < 10; i++) {
+//     var isStudent = Math.random() < 0.33; // approx one third will be students
+//     var studentId = isStudent ? new Array(6).fill(null).map(_ => Math.round(Math.random() * 9)).join('') : '';
+
+//     fAddress.write(utils.stringifyObject([i, 'test', 2]))
+// }
