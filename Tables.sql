@@ -152,6 +152,19 @@ CREATE TABLE [Discount] (
 	Percentage int NOT NULL
 )
 GO
+CREATE TABLE [EventHistory] (
+	Id int NOT NULL IDENTITY,
+	TableName varchar(255) NOT NULL,
+	Description varchar(255) NOT NULL,
+	EventType varchar(255) NOT NULL,
+	EventTime dateTime NOT NULL,
+  CONSTRAINT [PK_EVENTHISTORY] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
 
 ALTER TABLE [Workshop] WITH CHECK ADD CONSTRAINT [Workshop_fk0] FOREIGN KEY ([ConferenceDayId]) REFERENCES [ConferenceDay]([Id])
 ON UPDATE CASCADE
