@@ -7204,6 +7204,20 @@ var data = {
       'Banker Street',
       'Dakota Place',
       'Rapelye Street'
+    ],
+    frameworks: [
+        "Spring",
+        "Angular",
+        "React",
+        ".NET",
+        "Vue",
+        "Linq"
+    ],
+    levelsOfExperience: [
+      "for beginners",
+      "Advanced",
+      "Architecture",
+      "for noobs"
     ]
   }
 

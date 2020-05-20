@@ -1,0 +1,21 @@
+Id,Name,StartDate,EndDate,StudentDiscount
+1,Spring Advanced,2023-2-17,2023-2-19,96
+2,Angular for beginners,2022-2-15,2022-2-21,67
+3,Vue Advanced,2023-5-7,2023-5-14,81
+4,Spring for noobs,2022-9-8,2022-9-16,17
+5,Vue Architecture,2019-11-12,2019-11-16,23
+6,Vue Advanced,2016-3-18,2016-3-25,29
+7,Linq Advanced,2019-11-16,2019-11-17,52
+8,React Advanced,2022-4-29,2022-5-2,57
+9,Angular Architecture,2015-11-26,2015-11-27,74
+10,.NET for noobs,2022-6-30,2022-7-1,37
+11,.NET Advanced,2024-6-25,2024-6-27,60
+12,Angular Advanced,2021-10-8,2021-10-12,52
+13,Angular for beginners,2024-9-20,2024-9-25,76
+14,Angular Architecture,2017-1-24,2017-1-31,14
+15,Linq Advanced,2023-3-7,2023-3-11,26
+16,Vue for beginners,2020-11-16,2020-11-18,5
+17,Linq for noobs,2024-1-24,2024-1-26,34
+18,.NET for noobs,2020-10-15,2020-10-18,44
+19,.NET Architecture,2019-2-25,2019-3-1,44
+20,Linq for noobs,2017-8-31,2017-9-8,45
