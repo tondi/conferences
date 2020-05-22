@@ -8,7 +8,7 @@ var boundaries = {
     address: 20,
     location: 5,
     conference: 20,
-    conferenceDay: 50,
+    conferenceDay: null,
     workshop: null,
     companyConferenceDayReservation: null,
     companyWorkshopReservation: null,
@@ -118,6 +118,7 @@ for(var i = 1; i <= boundaries.conference; i++) {
         fConferenceDay.write(utils.stringifyObject([conferenceDayId++, i, date.toLocaleDateString(), capacity, locationId, price]))
     }
 }
+boundaries.conferenceDay = conferenceDayId - 1;
 
 // One workshop for ine 
 var fWorkshop = fs.createWriteStream("./csv/Workshop.csv")
