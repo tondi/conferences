@@ -9,10 +9,18 @@ var boundaries = {
     location: 5,
     conference: 20,
     conferenceDay: 50,
+    workshop: null,
+    companyConferenceDayReservation: null,
+    companyWorkshopReservation: null,
 }
 
 var memo = { // cache before writing to .csv
-    conference: []
+    conference: [],
+    conferenceDay: [],
+    companyConfereneDay: [],
+    companyConferenceDayReservation: [],
+    workshop: [],
+    companyWorkshopReservation: [],
 }
 
 var fPerson = fs.createWriteStream("./csv/Person.csv")
@@ -84,16 +92,194 @@ for(var i = 0; i < boundaries.conference ; i++) {
 
 var fConferenceDay = fs.createWriteStream("./csv/ConferenceDay.csv")
 fConferenceDay.write("Id,ConferenceId,Date,Capacity,LocationId,Price\n");
-for(var i = 0; i < boundaries.conferenceDay ; i++) {
-    var conferenceId = utils.randomFromTo(1, boundaries.conference);
-    
-    var foreignConference = memo.conference.find(conf => conf.id === conferenceId);
+var conferenceDayId = 1;
+for(var i = 1; i <= boundaries.conference; i++) {
+    var foreignConference = memo.conference.find(conf => conf.id === i);
     var foreignConferenceStart = foreignConference.dateStart;
     var foreignConferenceEnd = foreignConference.dateEnd;
 
-    var date = utils.randomDate(new Date(foreignConferenceStart), new Date(foreignConferenceEnd));
+    var conferenceDuration = utils.daysBetween(foreignConferenceStart, foreignConferenceEnd);
+    // console.log(conferenceDuration)
+    for(var j = 0; j <= conferenceDuration; j++) {
+        var date = utils.addDays(new Date(foreignConferenceStart), j);
+    
+        var capacity = utils.randomNumberOfLength(3);
+        var price = utils.randomNumberOfLength(3) + '.99';
+        var locationId = utils.randomFromTo(1, boundaries.location);
 
-    var locationId = utils.randomToMax(1, boundaries.location);
+        memo.conferenceDay.push({
+            id: conferenceDayId,
+            conferenceId: i, 
+            date: date.toLocaleDateString(),
+            capacity: capacity,
+            locationId,
+            price
+        });
+        fConferenceDay.write(utils.stringifyObject([conferenceDayId++, i, date.toLocaleDateString(), capacity, locationId, price]))
+    }
+}
 
-    fConferenceDay.write(utils.stringifyObject([i + 1, conferenceId, date.toLocaleDateString(), utils.randomNumberOfLength(3), locationId, utils.randomNumberOfLength(3) + '.99']))
+// One workshop for ine 
+var fWorkshop = fs.createWriteStream("./csv/Workshop.csv")
+fWorkshop.write("Id,Name,ConferenceDayId,Capacity,StartDateTime,DurationInMinutes,Price,AddressId\n");
+var conferenceDayId = 1;
+for(var i = 1; i <= boundaries.conferenceDay; i++) {
+
+    var foreignConferenceDay = memo.conferenceDay.find(confDay => confDay.id === i);
+    var workshopName = "How to " + utils.getRandomElement(mockData.frameworks) + " " + utils.getRandomElement(mockData.levelsOfExperience);
+    var capacity = utils.randomNumberOfLength(2);
+    var addressId = utils.randomFromTo(1, boundaries.address);
+
+    var dateTime = new Date(foreignConferenceDay.date);
+    dateTime.setUTCHours(utils.randomFromTo(10, 20));
+
+    var startDateTime = dateTime.toISOString().slice(0, 19).replace('T', ' ');
+    var durationInMinutes = utils.randomNumberOfLength(1) * 10;
+    var price = utils.randomNumberOfLength(2) + '.99';
+
+    memo.workshop.push({
+        id: i,
+        name: workshopName,
+        conferenceDayId: i,
+        capacity,
+        startDateTime,
+        durationInMinutes,
+        price,
+        addressId
+    });
+
+    fWorkshop.write(utils.stringifyObject([i, workshopName, i, capacity, startDateTime, durationInMinutes, price, addressId]))
+}
+boundaries.workshop = boundaries.conferenceDay;
+
+var fCompanyConferenceDayReservation = fs.createWriteStream("./csv/CompanyConferenceDayReservation.csv")
+fCompanyConferenceDayReservation.write("Id,ConferenceDayId,NumberOfPersons,CompanyId,Paid,ReservationDate\n");
+var companyConferenceDayReservationId = 1;
+for(var i = 1; i <= boundaries.conferenceDay; i++) {
+    var foreignConferenceDay = memo.conferenceDay.find(confDay => confDay.id === i);
+
+    // mock two reservations per conference day
+    for(var j = 1; j < 3; j++) {
+        var numberOfPersons = utils.randomNumberOfLength(2);   
+        var companyId = utils.randomFromTo(1, boundaries.company);
+
+        var daysBeforeConference = utils.randomFromTo(20, 60);
+        var reservationDate = utils.addDays(new Date(foreignConferenceDay.date), -daysBeforeConference);
+        
+        memo.companyConferenceDayReservation.push({
+            id: companyConferenceDayReservationId, 
+            conferenceDayId: i, 
+            numberOfPersons: numberOfPersons, 
+            companyId: companyId, 
+            paid: 0,
+            reservationDate: reservationDate.toLocaleDateString()
+        })
+
+        fCompanyConferenceDayReservation.write(utils.stringifyObject([
+            companyConferenceDayReservationId++, 
+            i, 
+            numberOfPersons, 
+            companyId, 
+            0,
+            reservationDate.toLocaleDateString()
+        ]))
+    }
+}
+boundaries.companyConferenceDayReservation = companyConferenceDayReservationId - 1; // update after evaluating real number of iterations
+
+
+// console.log(memo.companyConferenceDayReservation.map(el => el.numberOfPersons).reduce((prev, next) => prev + next), 0);
+
+var fPersonConferenceDayReservation = fs.createWriteStream("./csv/PersonConferenceDayReservation.csv")
+fPersonConferenceDayReservation.write("Id,CompanyReservationId,PersonId,ConferenceDayId,Paid,ReservationDate\n");
+var personConferenceDayReservationId = 1;
+for(var i = 1; i <= boundaries.companyConferenceDayReservation; i++) {
+    var foreignCompanyConferenceDayReservation = memo.companyConferenceDayReservation.find(el => el.id === i);
+    // console.log(i, foreignCompanyConferenceDayReservation);
+
+    var foreignConferenceDay = memo.conferenceDay.find(confDay => confDay.id === foreignCompanyConferenceDayReservation.conferenceDayId);
+    var foreignConferenceDayDate = foreignConferenceDay.date;
+    // console.log(foreignConferenceDayDate);
+    
+    // fill all places in conference
+    for(var j = 1; j < foreignCompanyConferenceDayReservation.numberOfPersons; j++) {
+        var personId = utils.randomFromTo(1, boundaries.person);
+
+        var daysBeforeConference = utils.randomFromTo(20, 60);
+        var reservationDate = utils.addDays(new Date(foreignConferenceDayDate), -daysBeforeConference);
+        
+        fPersonConferenceDayReservation.write(utils.stringifyObject([
+            personConferenceDayReservationId++, 
+            i, 
+            personId,
+            foreignCompanyConferenceDayReservation.conferenceDayId, 
+            0,
+            reservationDate.toLocaleDateString()
+        ]))
+    }
+}
+
+
+// mock two reservations per workshop
+var fCompanyWorkshopReservation = fs.createWriteStream("./csv/CompanyWorkshopReservation.csv")
+fCompanyWorkshopReservation.write("Id,WorkshopId,CompanyId,NumberOfPersons,Paid,ReservationDate\n");
+var companyWorkshopReservationId = 1;
+for(var i = 1; i <= boundaries.workshop; i++) {
+    var foreignWorkshop = memo.workshop.find(el => el.id === i);
+
+    for(var j = 1; j < 3; j++) {
+        var numberOfPersons = utils.randomNumberOfLength(2);   
+        var companyId = utils.randomFromTo(1, boundaries.company);
+
+        var daysBeforeWorkshop = utils.randomFromTo(20, 60);
+        var reservationDate = utils.addDays(new Date(foreignWorkshop.startDateTime), -daysBeforeWorkshop);
+
+
+        memo.companyWorkshopReservation.push({
+          id: companyWorkshopReservationId,
+          workshopId: i,
+          companyId,
+          numberOfPersons,
+          paid: 0,
+          reservationDate: reservationDate.toLocaleDateString()
+        })
+
+        fCompanyWorkshopReservation.write(utils.stringifyObject([
+            companyWorkshopReservationId++, 
+            i, 
+            companyId, 
+            numberOfPersons, 
+            0,
+            reservationDate.toLocaleDateString()
+        ]))
+    }
+}
+boundaries.companyWorkshopReservation = companyWorkshopReservationId - 1; // update after evaluating real number of iterations
+
+
+var fPersonWorkshopReservation = fs.createWriteStream("./csv/PersonWorkshopReservation.csv")
+fPersonWorkshopReservation.write("Id,WorkshopId,PersonId,CompanyReservationId,Paid,ReservationDate\n");
+var personWorkshopReservationId = 1;
+for(var i = 1; i <= boundaries.companyWorkshopReservation; i++) {
+    var foreignCompanyWorkshopReservation = memo.companyWorkshopReservation.find(el => el.id === i);
+
+    var foreignWorkshop = memo.workshop.find(el => el.id === foreignCompanyWorkshopReservation.workshopId);
+    var foreignWorkshopDate = foreignWorkshop.startDateTime;
+    
+    // fill all places in conference
+    for(var j = 1; j < foreignCompanyWorkshopReservation.numberOfPersons; j++) {
+        var personId = utils.randomFromTo(1, boundaries.person);
+
+        var daysBeforeWorkshop = utils.randomFromTo(20, 60);
+        var reservationDate = utils.addDays(new Date(foreignWorkshopDate), -daysBeforeWorkshop);
+        
+        fPersonWorkshopReservation.write(utils.stringifyObject([
+            personWorkshopReservationId++, 
+            i, 
+            personId,
+            foreignCompanyWorkshopReservation.workshopId, 
+            0,
+            reservationDate.toLocaleDateString()
+        ]))
+    }
 }

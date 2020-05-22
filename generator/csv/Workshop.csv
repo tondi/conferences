@@ -1,0 +1,51 @@
+Id,Name,ConferenceDayId,Capacity,StartDateTime,DurationInMinutes,Price,AddressId
+1,How to Linq Advanced,1,14,2022-04-06 15:00:00,60,94.99,19
+2,How to Vue Advanced,2,0,2022-04-07 14:00:00,90,6.99,15
+3,How to Linq Advanced,3,23,2022-04-08 18:00:00,60,45.99,2
+4,How to Vue for beginners,4,66,2022-04-09 11:00:00,0,37.99,1
+5,How to Linq Advanced,5,72,2021-11-03 18:00:00,20,13.99,20
+6,How to Linq for beginners,6,68,2021-11-04 14:00:00,10,72.99,15
+7,How to .NET for noobs,7,31,2021-11-05 20:00:00,0,13.99,19
+8,How to Angular for beginners,8,32,2021-11-06 13:00:00,20,21.99,9
+9,How to Vue Advanced,9,47,2021-11-07 18:00:00,90,23.99,20
+10,How to Linq Architecture,10,37,2021-11-08 16:00:00,30,30.99,7
+11,How to .NET for noobs,11,86,2021-11-10 16:00:00,30,55.99,4
+12,How to Linq for noobs,12,55,2021-11-25 15:00:00,20,26.99,15
+13,How to Spring for noobs,13,36,2025-07-01 19:00:00,90,21.99,3
+14,How to Linq for noobs,14,1,2025-07-02 12:00:00,50,36.99,20
+15,How to .NET Architecture,15,98,2022-03-15 11:00:00,60,88.99,4
+16,How to Vue Architecture,16,62,2022-03-16 11:00:00,30,66.99,14
+17,How to Vue Architecture,17,26,2022-03-17 19:00:00,90,65.99,5
+18,How to Vue for noobs,18,42,2022-03-18 14:00:00,10,37.99,3
+19,How to Linq Advanced,19,38,2022-03-19 18:00:00,20,75.99,16
+20,How to Linq for noobs,20,18,2022-03-20 20:00:00,80,41.99,6
+21,How to Angular for noobs,21,84,2022-03-21 15:00:00,60,55.99,16
+22,How to Linq for beginners,22,2,2023-11-13 12:00:00,30,89.99,17
+23,How to Angular for noobs,23,31,2023-11-14 19:00:00,50,61.99,16
+24,How to .NET for noobs,24,98,2023-11-15 15:00:00,70,17.99,9
+25,How to Angular Architecture,25,67,2023-11-16 14:00:00,70,77.99,10
+26,How to .NET Architecture,26,44,2023-11-17 10:00:00,50,74.99,14
+27,How to Angular for beginners,27,64,2025-01-03 13:00:00,90,24.99,4
+28,How to Linq Advanced,28,12,2025-01-04 10:00:00,40,67.99,20
+29,How to .NET for beginners,29,65,2025-01-05 13:00:00,20,81.99,12
+30,How to React for noobs,30,48,2025-03-21 20:00:00,40,36.99,7
+31,How to Linq for noobs,31,42,2025-03-22 11:00:00,80,12.99,17
+32,How to React Advanced,32,89,2025-03-23 16:00:00,60,75.99,15
+33,How to React Architecture,33,64,2025-03-24 19:00:00,80,90.99,11
+34,How to Linq for beginners,34,5,2025-08-17 11:00:00,80,1.99,4
+35,How to .NET for noobs,35,66,2025-08-18 15:00:00,0,88.99,12
+36,How to React Advanced,36,17,2025-08-19 10:00:00,60,93.99,16
+37,How to Linq Architecture,37,25,2025-08-20 20:00:00,40,43.99,11
+38,How to Vue Architecture,38,96,2025-08-21 15:00:00,40,31.99,9
+39,How to Linq for noobs,39,30,2025-08-22 15:00:00,80,58.99,3
+40,How to .NET Advanced,40,91,2021-08-15 20:00:00,50,32.99,9
+41,How to .NET Advanced,41,72,2021-08-16 19:00:00,50,33.99,3
+42,How to Angular Advanced,42,96,2021-08-17 14:00:00,70,62.99,16
+43,How to Linq Architecture,43,40,2021-08-18 19:00:00,40,88.99,4
+44,How to .NET Advanced,44,62,2021-08-19 10:00:00,90,90.99,7
+45,How to Linq for noobs,45,31,2021-08-20 11:00:00,30,64.99,19
+46,How to Angular for noobs,46,75,2021-08-21 19:00:00,50,53.99,2
+47,How to .NET for noobs,47,14,2021-08-22 20:00:00,70,62.99,19
+48,How to Linq Advanced,48,26,2023-09-27 16:00:00,40,58.99,7
+49,How to Vue Architecture,49,66,2023-09-28 14:00:00,80,36.99,19
+50,How to Vue for noobs,50,49,2023-09-29 16:00:00,50,79.99,19

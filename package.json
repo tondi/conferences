@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/tondi/conferences",
   "author": "mtondos2@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "cd generator && node generator.js"
+  }
 }

@@ -29,7 +29,7 @@ function getRandomElement(arr) {
     return arr[properIndex];
 }
 
-function randomDate(start = new Date('01-01-2015'), end = new Date('01-01-2025')) {
+function randomDate(start = new Date('01-01-2020'), end = new Date('01-01-2026')) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
@@ -39,6 +39,17 @@ function addDays(date, days) {
     return copy;
 }
 
+function treatAsUTC(date) {
+    var result = new Date(date);
+    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+    return result;
+}
+
+function daysBetween(startDate, endDate) {
+    var millisecondsPerDay = 24 * 60 * 60 * 1000;
+    return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
+}
+
 module.exports = {
     stringifyObject,
     randomNumberOfLength,
@@ -46,5 +57,6 @@ module.exports = {
     randomFromTo,
     getRandomElement,
     randomDate,
-    addDays
+    addDays,
+    daysBetween
 }
