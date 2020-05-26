@@ -95,7 +95,7 @@ GO
 CREATE OR ALTER PROCEDURE Add_PersonConferenceDayReservation(@ConferenceDayId int, @PersonId int, @CompanyReservationId int)
 AS
 BEGIN
-INSERT INTO PersonConferenceDayReservation(ConferenceDayId, PersonId, CompanyReservationId, Paid, ReservationDate) VALUES(@ConferenceDayId, @PersonId, @ConferenceDayId, 0, GETDATE());
+INSERT INTO PersonConferenceDayReservation(CompanyReservationId, PersonId, ConferenceDayId, Paid, ReservationDate) VALUES(@CompanyReservationId, @PersonId, @ConferenceDayId, 0, GETDATE());
 END;
 GO
 
